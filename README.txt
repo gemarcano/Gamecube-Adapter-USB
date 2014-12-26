@@ -1,0 +1,3 @@
+See docs/* for information relating to the device setup and installation. Currently the install process is very manual, but it could be automatized via an installer of sorts.
+
+This software is dual-licensed under the LGPLv3 and GPLv2 or later. I am not closed to the idea of licensing this software under a BSD license if someone were to present me a convincing enough argument, so ask me if there are any questions or concern. I can be contacted with questions about licensing at gabemarcano at yahoo dot com.
