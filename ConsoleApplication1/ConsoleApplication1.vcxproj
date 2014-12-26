@@ -145,10 +145,12 @@
     <ClCompile Include="GCC.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="USBDriver.cpp" />
+    <ClCompile Include="vjoy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GCC.h" />
     <ClInclude Include="USBDriver.h" />
+    <ClInclude Include="VJoyGCController.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

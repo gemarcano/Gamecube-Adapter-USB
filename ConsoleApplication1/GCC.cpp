@@ -2,39 +2,6 @@
 #include <atomic>
 #include "GCC.h"
 
-//[0] joystick enabled
-//[1] upper end D-Pad, lower end a,b,x,y
-//[2] R button, L Button, z, start
-//[3] analog X
-//[4] analog Y
-//[5] c-stick X
-//[6] c-stick Y
-//[7] L axis
-//[8] R Axis
-
-//[1] [0]: A
-//    [1]: B
-//    [2]: X
-//    [3]: Y
-//    [4]: Left
-//    [5]: Right
-//    [6]: Down
-//    [7]: Up
-
-//[2] [0]: start
-//    [1]: z
-//    [2]: R button
-//    [3]: L Button
-//    [4]: not used
-//    [5]: not used
-//    [6]: not used
-//    [7]: not used
-
-// aData 1: bytes 02-09
-// aData 2: bytes 11-17
-// aData 3: bytes 20-27
-// aData 4: bytes 29-36l
-
 namespace GCC
 {
 	GCController::GCController()
@@ -94,5 +61,11 @@ namespace GCC
 		buttons.dpad_right = !!(aData[1] & (1 << 5));
 		buttons.dpad_down = !!(aData[1] & (1 << 6));
 		buttons.dpad_up = !!(aData[1] & (1 << 7));
+
+		buttons.start = !!(aData[2] & 0x01);
+		buttons.z = !!(aData[2] & (1 << 1));
+		buttons.r_shoulder = !!(aData[2] & (1 << 2));
+		buttons.l_shoulder = !!(aData[2] & (1 << 3));
+		
 	}
 }

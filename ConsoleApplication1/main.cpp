@@ -3,13 +3,14 @@
 #include "public.h"
 #include "vjoyinterface.h"
 #include "USBDriver.h"
+#include "VJoyGCController.h"
 
 using namespace std;
 using namespace GCC;
 
 int main(int argc, char *argv[])
 {
-	USHORT X, Y, Z, ZR, XR;							// Position of several axes
+	/*USHORT X, Y, Z, ZR, XR;							// Position of several axes
 
 	X = 20;
 	Y = 30;
@@ -99,5 +100,26 @@ int main(int argc, char *argv[])
 
 	cout << "OK\n";
 
+	return 0;*/
+
+	USBDriver driver;
+	VJoyGCController joy(driver);
+
+	for (;;)
+	{
+		auto controllers = driver.getState();
+		
+		for (int i = 0; i < controllers.size(); ++i)
+		{ 
+			cout << "Control " << i << " enabled: " << controllers[i].enabled << endl;
+			cout << "Buttons:" << endl;
+			cout << "\tA: " << controllers[i].buttons.a << endl;
+			cout << "\tB: " << controllers[i].buttons.b << endl;
+			cout << "\tY: " << controllers[i].buttons.y << endl;
+			cout << "\tX: " << controllers[i].buttons.x << endl;
+		}
+		std::this_thread::sleep_for(std::chrono::seconds(1));
+			
+	}
 	return 0;
 }

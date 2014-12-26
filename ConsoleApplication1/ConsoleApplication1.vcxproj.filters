@@ -24,6 +24,9 @@
     <ClCompile Include="USBDriver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="vjoy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GCC.h">
@@ -31,6 +34,9 @@
     </ClInclude>
     <ClInclude Include="USBDriver.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VJoyGCController.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

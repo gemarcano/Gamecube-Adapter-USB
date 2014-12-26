@@ -4,6 +4,9 @@
 #include "GCC.h"
 #include "libusb.h"
 #include <thread>
+#include <chrono>
+#include <vector>
+#include <mutex>
 
 namespace GCC
 {
@@ -17,14 +20,18 @@ namespace GCC
 		USBDriver();
 		~USBDriver();
 
-		GCController getState() const;
-		GCController setState(const GCController& aController);
+		std::vector<GCController> getState() const;
 		Status getStatus() const;
 
 	private:
-		GCController mController;
+		mutable std::mutex mMutex;
+		std::vector<GCController> mControllers;
 		Status mStatus;
 		libusb_context *mUSBContext;
+
+		std::atomic<bool> mEnabled;
+		double mPollRate; //In Hz
+		std::thread mThread;
 
 	};
 }
