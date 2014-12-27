@@ -1,5 +1,6 @@
 #include <cstdint>
 #include <atomic>
+#include <limits>
 #include "GCController.h"
 
 namespace GCC
@@ -57,7 +58,7 @@ namespace GCC
 		enabled = !!(0x30 & aData[0]);
 		powered = !!(0x04 & aData[0]);
 		axis.left_x = aData[3];
-		axis.left_y = aData[4];
+		axis.left_y = std::numeric_limits<decltype(aData[4])>::max() - aData[4]; // inversed.
 		axis.right_x = aData[5];
 		axis.right_y = aData[6];
 		axis.l_axis = aData[7];

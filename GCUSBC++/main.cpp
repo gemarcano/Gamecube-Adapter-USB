@@ -17,6 +17,7 @@ int main(int argc, char *argv[])
 	{
 		auto controllers = driver.getState();
 		
+		system("cls");
 		for (int i = 0; i < controllers.size(); ++i)
 		{ 
 			cout << "Control " << i << " enabled: " << controllers[i].enabled << endl;

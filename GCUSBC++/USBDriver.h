@@ -37,6 +37,7 @@ namespace GCC
 		void mDriverThread();
 		libusb_device_handle *mHandle;
 
+
 	};
 }
 #endif//_GCC_USBDRIVER_H_

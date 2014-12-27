@@ -27,13 +27,17 @@ namespace GCC
 	{
 	public:
 		VJoyGCControllers(const USBDriver& aDriver);
-		void mUpdateThread();
+		~VJoyGCControllers();
+
 	private:
 		bool mEnabled;
 		std::thread mThread;
 		const USBDriver& mDriver;
 
 		std::array<VJoyGCController, 4> mControllers;
+		std::vector<GCController> mOriginalSetup;
+
+		void mUpdateThread();
 	};
 }
 

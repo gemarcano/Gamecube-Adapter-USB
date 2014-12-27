@@ -116,6 +116,7 @@ namespace GCC
 		int s = 0, transferred = 0;
 		std::array<unsigned char, 37> data{};
 		std::array<unsigned char, 5> rumble{ { 0x11, 0, 0, 0, 0 } };
+		s = libusb_interrupt_transfer(mHandle, 0x02, rumble.data(), rumble.size(), &transferred, 0); //if for any reason rumble is on, turn it off.
 		while (mEnabled)
 		{
 			std::chrono::milliseconds pollInterval(static_cast<long long>(1000. / mPollRate));
@@ -123,21 +124,20 @@ namespace GCC
 
 			//Get current status
 			s = libusb_interrupt_transfer(mHandle, 0x81, data.data(), data.size(), &transferred, 0); //FIXME have this time out?
-			//s = libusb_bulk_transfer(mHandle, 0x02, rumble.data(), rumble.size(), &transferred, 0); //FIXME have this time out?
 			auto end = std::chrono::steady_clock::now();
 
 			double count = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
 
 			if (s == 0)
 			{
+				auto controllers = readRawInput(data);
 				std::unique_lock<std::mutex> lock(mMutex);
-				mControllers = readRawInput(data);
+				mControllers.swap(controllers);
 			}
 
 			//assert(count < 1./mPollRate );
 			std::this_thread::sleep_for(pollInterval - std::chrono::duration_cast<std::chrono::milliseconds>(end - start));
 		}
-
 	}
-
 }
+

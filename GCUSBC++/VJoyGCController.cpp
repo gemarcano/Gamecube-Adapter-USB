@@ -81,7 +81,7 @@ namespace GCC
 
 		//set axis
 		s = SetAxis(aController.axis.left_x * 127, mDevice, HID_USAGE_X);
-		s = SetAxis((255 - aController.axis.left_y) * 127, mDevice, HID_USAGE_Y); //It seems that the y axis is inverted...
+		s = SetAxis(aController.axis.left_y * 127, mDevice, HID_USAGE_Y);
 		s = SetAxis(aController.axis.right_x * 127, mDevice, HID_USAGE_RX);
 		s = SetAxis(aController.axis.right_y * 127, mDevice, HID_USAGE_RY);
 		s = SetAxis(aController.axis.l_axis * 127, mDevice, HID_USAGE_SL0);
@@ -93,8 +93,21 @@ namespace GCC
 	VJoyGCControllers::VJoyGCControllers(const USBDriver& aDriver)
 		:mDriver(aDriver), mControllers({ { VJoyGCController(1), VJoyGCController(2), VJoyGCController(3), VJoyGCController(4) } })
 	{
+		while (mOriginalSetup.empty())
+		{
+			mOriginalSetup = mDriver.getState();
+		}
+
 		mEnabled = true;
 		mThread = std::thread(&VJoyGCControllers::mUpdateThread, this);
+	}
+
+	VJoyGCControllers::~VJoyGCControllers()
+	{
+		for (std::uint_fast8_t i = 0; i < mOriginalSetup.size() && i < mControllers.size(); ++i)
+		{
+			mControllers[i].update(mOriginalSetup[i]);
+		}
 	}
 
 	void VJoyGCControllers::mUpdateThread()
@@ -103,12 +116,11 @@ namespace GCC
 		int s = 0;
 		while (mEnabled)
 		{
-			auto controllers = mDriver.getState();
+			auto controllers(mDriver.getState());
 			for (std::uint_fast8_t i = 0; i < controllers.size() && i < mControllers.size(); ++i)
 			{
 				mControllers[i].update(controllers[i]);
 			}
-
 		}
 	}
 }
