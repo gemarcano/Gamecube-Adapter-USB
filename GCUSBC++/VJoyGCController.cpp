@@ -83,7 +83,7 @@ namespace GCC
 
 		//set axis
 		s = SetAxis(aController.axis.left_x * 127, mDevice, HID_USAGE_X);
-		s = SetAxis((255 - aController.axis.left_y) * 127, mDevice, HID_USAGE_Y);
+		s = SetAxis((255 - aController.axis.left_y) * 127, mDevice, HID_USAGE_Y); //It seems that the y axis is inverted...
 		s = SetAxis(aController.axis.right_x * 127, mDevice, HID_USAGE_RX);
 		s = SetAxis(aController.axis.right_y * 127, mDevice, HID_USAGE_RY);
 		s = SetAxis(aController.axis.l_axis * 127, mDevice, HID_USAGE_SL0);

@@ -1,0 +1,13 @@
+Currently installing controllers needs to be done by hand via vJoyConfig.
+
+Using :
+Axes
+	X, Y for Analog stick
+	Rx, Ry for C-stick
+	Slider, Slider2 for Left and Right shoulder, respectively.
+Buttons
+	12
+
+The software uses vjoy devices 1 through 4.
+
+The USB driver for the adapter also needs to be replaced using something like zadig in order to allow for access via libusb.

@@ -1,5 +1,5 @@
 
-#pragma warning(disable:4996)
+#pragma warning(disable:4996) //Shut up warnings about std::copy being insecure
 #include "GCController.h"
 #include <vector>
 

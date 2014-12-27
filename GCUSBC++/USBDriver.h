@@ -2,9 +2,9 @@
 #define _GCC_USBDRIVER_H_
 
 #include "GCController.h"
-#include "libusb.h"
+
+#include <libusb.h>
 #include <thread>
-#include <chrono>
 #include <vector>
 #include <mutex>
 
