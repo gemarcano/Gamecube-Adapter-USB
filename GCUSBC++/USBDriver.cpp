@@ -1,6 +1,6 @@
 
 #pragma warning(disable:4996)
-#include "GCC.h"
+#include "GCController.h"
 #include <vector>
 
 #include "USBDriver.h"

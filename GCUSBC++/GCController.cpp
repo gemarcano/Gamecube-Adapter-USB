@@ -1,6 +1,6 @@
 #include <cstdint>
 #include <atomic>
-#include "GCC.h"
+#include "GCController.h"
 
 namespace GCC
 {

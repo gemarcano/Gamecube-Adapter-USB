@@ -1,7 +1,7 @@
 #ifndef _GCC_USBDRIVER_H_
 #define _GCC_USBDRIVER_H_
 
-#include "GCC.h"
+#include "GCController.h"
 #include "libusb.h"
 #include <thread>
 #include <chrono>

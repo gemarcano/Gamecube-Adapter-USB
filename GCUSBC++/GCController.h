@@ -1,5 +1,5 @@
-#ifndef _GCC_GCC_H_
-#define _GCC_GCC_H_
+#ifndef _GCC_GCController_H_
+#define _GCC_GCController_H_
 
 #include <atomic>
 #include <cstdint>
@@ -36,4 +36,4 @@ namespace GCC
 	
 }
 
-#endif//_GCC_GCC_H_
+#endif//_GCC_GCController_H_

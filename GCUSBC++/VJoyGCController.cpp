@@ -57,7 +57,7 @@ namespace GCC
 		//setup thread
 		
 
-		mThread.swap(std::thread(&VJoyGCController::mUpdateThread, this));
+		mThread = std::thread(&VJoyGCController::mUpdateThread, this);
 	}
 
 	void VJoyGCController::mUpdateThread()
