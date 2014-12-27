@@ -15,16 +15,25 @@ namespace GCC
 		{
 			READY, OFF, ERR
 		};
-		VJoyGCController(VJoyDevice aDevice, const USBDriver& aDriver);
+		VJoyGCController(VJoyDevice aDevice);
+		void update(const GCController& aController);
 
 	private:
 		VJoyDevice mDevice;
 		Status mStatus;
-		const USBDriver& mDriver;
+	};
 
+	class VJoyGCControllers
+	{
+	public:
+		VJoyGCControllers(const USBDriver& aDriver);
+		void mUpdateThread();
+	private:
 		bool mEnabled;
 		std::thread mThread;
-		void mUpdateThread();
+		const USBDriver& mDriver;
+
+		std::array<VJoyGCController, 4> mControllers;
 	};
 }
 

@@ -11,9 +11,9 @@
 namespace GCC
 {
 
-	std::array<VJoyDevice, 4> mDevices{ {1,2,3,4} };
-	VJoyGCController::VJoyGCController(VJoyDevice aDevice, const USBDriver& aDriver)
-		:mDevice(aDevice), mStatus(Status::OFF), mDriver(aDriver)
+	
+	VJoyGCController::VJoyGCController(VJoyDevice aDevice)
+		:mDevice(aDevice), mStatus(Status::OFF)
 	{
 		//Set up joystick
 		if (!vJoyEnabled())
@@ -57,48 +57,58 @@ namespace GCC
 		//setup thread
 		
 
-		mThread = std::thread(&VJoyGCController::mUpdateThread, this);
+		
 	}
 
-	void VJoyGCController::mUpdateThread()
+	void VJoyGCController::update(const GCController& aController)
+	{
+		if (!aController.enabled)
+		{
+			return;
+		}
+		int s = SetBtn(aController.buttons.a, mDevice, 1);
+		s = SetBtn(aController.buttons.b, mDevice, 2);
+		s = SetBtn(aController.buttons.x, mDevice, 3);
+		s = SetBtn(aController.buttons.y, mDevice, 4);
+
+		s = SetBtn(aController.buttons.dpad_left, mDevice, 5);
+		s = SetBtn(aController.buttons.dpad_up, mDevice, 6);
+		s = SetBtn(aController.buttons.dpad_right, mDevice, 7);
+		s = SetBtn(aController.buttons.dpad_down, mDevice, 8);
+
+		s = SetBtn(aController.buttons.l_shoulder, mDevice, 9);
+		s = SetBtn(aController.buttons.r_shoulder, mDevice, 10);
+		s = SetBtn(aController.buttons.z, mDevice, 11);
+		s = SetBtn(aController.buttons.start, mDevice, 12);
+
+		//set axis
+		s = SetAxis(aController.axis.left_x * 127, mDevice, HID_USAGE_X);
+		s = SetAxis((255 - aController.axis.left_y) * 127, mDevice, HID_USAGE_Y);
+		s = SetAxis(aController.axis.right_x * 127, mDevice, HID_USAGE_RX);
+		s = SetAxis(aController.axis.right_y * 127, mDevice, HID_USAGE_RY);
+		s = SetAxis(aController.axis.l_axis * 127, mDevice, HID_USAGE_SL0);
+		s = SetAxis(aController.axis.r_axis * 127, mDevice, HID_USAGE_SL1);
+
+		//FIXME check for 's'
+	}
+
+	VJoyGCControllers::VJoyGCControllers(const USBDriver& aDriver)
+		:mDriver(aDriver), mControllers({ { VJoyGCController(1), VJoyGCController(2), VJoyGCController(3), VJoyGCController(4) } })
+	{
+		mEnabled = true;
+		mThread = std::thread(&VJoyGCControllers::mUpdateThread, this);
+	}
+
+	void VJoyGCControllers::mUpdateThread()
 	{
 		
 		int s = 0;
 		while (mEnabled)
 		{
-			//Grab data from driver
 			auto controllers = mDriver.getState();
-			for (int i = 0; i < controllers.size(); ++i)
+			for (std::uint_fast8_t i = 0; i < controllers.size() && i < mControllers.size(); ++i)
 			{
-
-				const GCController& controller = controllers[i];
-				if (!controller.enabled)
-				{
-					continue;
-				}
-
-				s = SetBtn(controller.buttons.a, mDevice, 1);
-				s = SetBtn(controller.buttons.b, mDevice, 2);
-				s = SetBtn(controller.buttons.x, mDevice, 3);
-				s = SetBtn(controller.buttons.y, mDevice, 4);
-
-				s = SetBtn(controller.buttons.dpad_left, mDevice, 5);
-				s = SetBtn(controller.buttons.dpad_up, mDevice, 6);
-				s = SetBtn(controller.buttons.dpad_right, mDevice, 7);
-				s = SetBtn(controller.buttons.dpad_down, mDevice, 8);
-
-				s = SetBtn(controller.buttons.l_shoulder, mDevice, 9);
-				s = SetBtn(controller.buttons.r_shoulder, mDevice, 10);
-				s = SetBtn(controller.buttons.z, mDevice, 11);
-				s = SetBtn(controller.buttons.start, mDevice, 12);
-
-				//set axis
-				s = SetAxis(controller.axis.left_x * 127, mDevice, HID_USAGE_X);
-				s = SetAxis((255 - controller.axis.left_y) * 127, mDevice, HID_USAGE_Y);
-				s = SetAxis(controller.axis.right_x * 127, mDevice, HID_USAGE_RX);
-				s = SetAxis(controller.axis.right_y * 127, mDevice, HID_USAGE_RY);
-				s = SetAxis(controller.axis.l_axis * 127, mDevice, HID_USAGE_SL0);
-				s = SetAxis(controller.axis.r_axis * 127, mDevice, HID_USAGE_SL1);
+				mControllers[i].update(controllers[i]);
 			}
 
 		}
