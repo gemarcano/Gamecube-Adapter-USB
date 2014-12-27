@@ -29,9 +29,13 @@ namespace GCC
 		Status mStatus;
 		libusb_context *mUSBContext;
 
+
 		std::atomic<bool> mEnabled;
 		double mPollRate; //In Hz
 		std::thread mThread;
+
+		void mDriverThread();
+		libusb_device_handle *mHandle;
 
 	};
 }

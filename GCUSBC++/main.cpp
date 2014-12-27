@@ -20,6 +20,7 @@ int main(int argc, char *argv[])
 		for (int i = 0; i < controllers.size(); ++i)
 		{ 
 			cout << "Control " << i << " enabled: " << controllers[i].enabled << endl;
+			cout << "Power " << i << " enabled: " << controllers[i].powered << endl;
 			cout << "Buttons:" << endl;
 			cout << "\tA: " << controllers[i].buttons.a << endl;
 			cout << "\tB: " << controllers[i].buttons.b << endl;

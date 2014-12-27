@@ -11,3 +11,6 @@ Buttons
 The software uses vjoy devices 1 through 4.
 
 The USB driver for the adapter also needs to be replaced using something like zadig in order to allow for access via libusb.
+
+Development notes:
+Rumble works by sending a five byte data packet to the adaptor with the first byte of 0x11. The next four bytes correspond to the state to set the rumble of the desired controller. For example:  {0x11, 1, 0, 0, 1} Triggers rumble on for the first and last controller and disables it for the second and third.

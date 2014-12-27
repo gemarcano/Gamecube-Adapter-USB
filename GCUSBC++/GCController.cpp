@@ -10,6 +10,15 @@ namespace GCC
 		
 	}
 
+	//From making sense of https://github.com/ToadKing/wii-u-gc-adapter/blob/master/wii-u-gc-adapter.c
+	// Signal?: byte 0 == 0x21
+	// STATUS: byte 1
+	//		0x10 NORMAL STATE
+	//		0x20 WAVEBIRD STATE
+	//		0 not detected
+	//		0x04 Extra power (necessary for rumble)
+	// 
+
 	//Taken from https://bitbucket.org/elmassivo/gcn-usb-adapter/src
 	// PORT 1: bytes 02-09
 	// PORT 2: bytes 11-17
@@ -45,7 +54,8 @@ namespace GCC
 	//    [7]: not used
 	GCController::GCController(const std::array<unsigned char, 9>& aData)
 	{
-		enabled = !!aData[0];
+		enabled = !!(0x30 & aData[0]);
+		powered = !!(0x04 & aData[0]);
 		axis.left_x = aData[3];
 		axis.left_y = aData[4];
 		axis.right_x = aData[5];

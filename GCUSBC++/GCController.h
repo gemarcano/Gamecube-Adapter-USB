@@ -25,6 +25,7 @@ namespace GCC
 			std::uint_fast8_t left_x, left_y, right_x, right_y, l_axis, r_axis;
 		} axis;
 		
+		bool powered;
 		bool rumble;
 
 

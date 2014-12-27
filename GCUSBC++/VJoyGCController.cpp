@@ -10,8 +10,6 @@
 
 namespace GCC
 {
-
-	
 	VJoyGCController::VJoyGCController(VJoyDevice aDevice)
 		:mDevice(aDevice), mStatus(Status::OFF)
 	{
