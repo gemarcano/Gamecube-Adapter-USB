@@ -103,7 +103,7 @@ int main(int argc, char *argv[])
 	return 0;*/
 
 	USBDriver driver;
-	VJoyGCController joy(driver);
+	VJoyGCController joy(1, driver);
 
 	for (;;)
 	{
